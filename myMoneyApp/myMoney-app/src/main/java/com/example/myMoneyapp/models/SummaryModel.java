@@ -4,7 +4,6 @@ public class SummaryModel {
     private double totalCredits;
     private double totalDebits;
     private double balance;
-    
     public SummaryModel(double totalCredits, double totalDebits, double balance) {
         this.totalCredits = totalCredits;
         this.totalDebits = totalDebits;

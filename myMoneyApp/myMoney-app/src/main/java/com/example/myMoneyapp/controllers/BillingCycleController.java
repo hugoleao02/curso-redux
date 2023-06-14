@@ -50,9 +50,9 @@ public class BillingCycleController {
     
     
     @GetMapping
-    public ResponseEntity<List<BillingCycleModel>> getAllBillingCycle() {
-        List<BillingCycleModel> billingCycle = billingCycleService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(billingCycle);
+    public ResponseEntity<Page<BillingCycleModel>> getAllBillingCycle(Pageable pageable) {
+        Page<BillingCycleModel> billingCycles = billingCycleService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(billingCycles);
     }
     
     @GetMapping("/count")

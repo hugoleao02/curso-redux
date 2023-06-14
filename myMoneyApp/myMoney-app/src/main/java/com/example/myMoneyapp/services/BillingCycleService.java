@@ -4,6 +4,8 @@ import com.example.myMoneyapp.models.BillingCycleModel;
 import com.example.myMoneyapp.models.CreditModel;
 import com.example.myMoneyapp.models.DebitModel;
 import com.example.myMoneyapp.repositories.BillingCycleRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +30,8 @@ public class BillingCycleService {
         return billingCycleRepository.findById(id);
     }
     
-    public List<BillingCycleModel> findAll() {
-        return billingCycleRepository.findAll();
+    public Page<BillingCycleModel> findAll(Pageable pageable) {
+        return billingCycleRepository.findAll(pageable);
     }
     
     public void delete(BillingCycleModel billingCycleModel) {
@@ -45,13 +47,20 @@ public class BillingCycleService {
         double totalCredits = 0.0;
         
         for (BillingCycleModel billingCycle : billingCycles) {
-            List<CreditModel> credits = billingCycle.getCredits();
-            for (CreditModel credit : credits) {
-                totalCredits += credit.getValue();
-            }
+            totalCredits += sumCredits(billingCycle.getCredits());
         }
         
         return totalCredits;
+    }
+    
+    private double sumCredits(List<CreditModel> credits) {
+        double sum = 0.0;
+        
+        for (CreditModel credit : credits) {
+            sum += credit.getValue();
+        }
+        
+        return sum;
     }
     
     public double getTotalDebits() {
@@ -59,14 +68,23 @@ public class BillingCycleService {
         double totalDebits = 0.0;
         
         for (BillingCycleModel billingCycle : billingCycles) {
-            List<DebitModel> debits = billingCycle.getDebits();
-            for (DebitModel debit : debits) {
-                totalDebits += debit.getValue();
-            }
+            totalDebits += sumDebits(billingCycle.getDebits());
+           
         }
         
         return totalDebits;
     }
+    
+    private double sumDebits(List<DebitModel> debits) {
+        double sum = 0.0;
+        
+        for (DebitModel debit : debits) {
+            sum += debit.getValue();
+        }
+        
+        return sum;
+    }
+    
     
 }
     
