@@ -60,16 +60,16 @@ public class BillingCycleController {
         long count = billingCycleService.count();
         return ResponseEntity.ok(count);
     }
-//    @GetMapping("Summary")
-//    public ResponseEntity<Object> getBillingCycleSummary(){
-//        double totalCredits = billingCycleService.getTotalCredits();
-//        double totalDebits = billingCycleService.getTotalDebits();
-//        double balance = totalCredits - totalDebits;
-//
-//        SummaryModel summary = new SummaryModel(totalCredits, totalDebits, balance);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(summary);
-//    }
+    @GetMapping("summary")
+    public ResponseEntity<Object> getBillingCycleSummary(){
+        double totalCredits = billingCycleService.getTotalCredits();
+        double totalDebits = billingCycleService.getTotalDebits();
+        double balance = totalCredits - totalDebits;
+
+        SummaryModel summary = new SummaryModel(totalCredits, totalDebits, balance);
+
+        return ResponseEntity.status(HttpStatus.OK).body(summary);
+    }
     
     
     @GetMapping("/{id}")

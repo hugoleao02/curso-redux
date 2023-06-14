@@ -2,6 +2,7 @@ package com.example.myMoneyapp.services;
 
 import com.example.myMoneyapp.models.BillingCycleModel;
 import com.example.myMoneyapp.models.CreditModel;
+import com.example.myMoneyapp.models.DebitModel;
 import com.example.myMoneyapp.repositories.BillingCycleRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,34 @@ public class BillingCycleService {
         return billingCycleRepository.count();
     }
     
-   
+    public double getTotalCredits() {
+        List<BillingCycleModel> billingCycles = billingCycleRepository.findAll();
+        double totalCredits = 0.0;
+        
+        for (BillingCycleModel billingCycle : billingCycles) {
+            List<CreditModel> credits = billingCycle.getCredits();
+            for (CreditModel credit : credits) {
+                totalCredits += credit.getValue();
+            }
+        }
+        
+        return totalCredits;
+    }
+    
+    public double getTotalDebits() {
+        List<BillingCycleModel> billingCycles = billingCycleRepository.findAll();
+        double totalDebits = 0.0;
+        
+        for (BillingCycleModel billingCycle : billingCycles) {
+            List<DebitModel> debits = billingCycle.getDebits();
+            for (DebitModel debit : debits) {
+                totalDebits += debit.getValue();
+            }
+        }
+        
+        return totalDebits;
+    }
     
 }
+    
+
