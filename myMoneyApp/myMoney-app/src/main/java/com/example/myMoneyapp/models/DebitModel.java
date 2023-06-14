@@ -25,12 +25,11 @@ public class DebitModel {
     @NotNull
     @Column
     @NumberFormat(style = NumberFormat.Style.NUMBER)
-    private float value;
+    private double value;
     @Enumerated(EnumType.STRING)
     @Column
     private Status status;
     
-  
     public UUID getId() {
         return id;
     }
@@ -47,11 +46,11 @@ public class DebitModel {
         this.name = name;
     }
     
-    public float getValue() {
+    public double getValue() {
         return value;
     }
     
-    public void setValue(float value) {
+    public void setValue(double value) {
         this.value = value;
     }
     

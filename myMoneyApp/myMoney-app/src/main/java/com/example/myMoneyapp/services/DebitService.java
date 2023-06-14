@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 public class DebitService {
-    @Autowired
+   
     final DebitRepository debitRepository;
     
     public DebitService(DebitRepository debitRepository) {
