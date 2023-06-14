@@ -1,10 +1,13 @@
 package com.example.myMoneyapp.services;
 
-import com.example.myMoneyapp.models.CreditModal;
+import com.example.myMoneyapp.models.CreditModel;
 import com.example.myMoneyapp.repositories.CreditRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CreditService {
@@ -16,7 +19,19 @@ public class CreditService {
     }
     
     @Transactional
-    public CreditModal save(CreditModal creditModal) {
-        return  creditRepository.save(creditModal);
+    public CreditModel save(CreditModel creditModel) {
+        return  creditRepository.save(creditModel);
+    }
+    
+    public List<CreditModel> findAll() {
+        return creditRepository.findAll();
+    }
+    
+    public Optional<CreditModel> findById(UUID id) {
+        return creditRepository.findById(id);
+    }
+    
+    public void delete(CreditModel creditModel) {
+        creditRepository.delete(creditModel);
     }
 }

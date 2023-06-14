@@ -1,7 +1,7 @@
 package com.example.myMoneyapp.models;
 
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -9,16 +9,19 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "credits")
-public class CreditModal {
+public class CreditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private UUID id;
     @NotEmpty
     @NotNull
+    @Column
     private String name;
     @NotEmpty
     @NotNull
-    @Length(min = 0)
+    @Column
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
     private float value;
     
     

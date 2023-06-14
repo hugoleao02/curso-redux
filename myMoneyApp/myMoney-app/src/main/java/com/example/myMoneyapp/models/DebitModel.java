@@ -2,9 +2,11 @@ package com.example.myMoneyapp.models;
 
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,17 +15,22 @@ public class DebitModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private UUID id;
     @NotEmpty
     @NotNull
+    @Column
     private String name;
     @NotEmpty
     @NotNull
-    @Length(min = 0)
+    @Column
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
     private float value;
     @Enumerated(EnumType.STRING)
+    @Column
     private Status status;
     
+  
     public UUID getId() {
         return id;
     }
@@ -60,6 +67,8 @@ public class DebitModel {
         if (status == null) {
             return null;
         }
+        
+        status = status.toUpperCase();
         
         for (Status enumValue : Status.values()) {
             if (enumValue.name().equalsIgnoreCase(status)) {
