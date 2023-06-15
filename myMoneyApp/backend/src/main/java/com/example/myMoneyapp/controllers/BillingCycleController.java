@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/billingcycle")
+@RequestMapping("/billingCycles")
 @CrossOrigin(origins = "*")
 public class BillingCycleController {
     

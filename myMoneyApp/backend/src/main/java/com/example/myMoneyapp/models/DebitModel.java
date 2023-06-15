@@ -54,27 +54,12 @@ public class DebitModel {
         this.value = value;
     }
     
-    public String getStatus() {
-        return status != null ? status.name() : null;
+    public Status getStatus() {
+        return status;
     }
-    
-    public void setStatus(String status) {
-        this.status = convertStatusFromString(status);
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
-    
-    private Status convertStatusFromString(String status) {
-        if (status == null) {
-            return null;
-        }
-        
-        status = status.toUpperCase();
-        
-        for (Status enumValue : Status.values()) {
-            if (enumValue.name().equalsIgnoreCase(status)) {
-                return enumValue;
-            }
-        }
-        
-        throw new IllegalArgumentException("Invalid status: " + status);
-    }
+
 }
