@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/billingCycles")
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class BillingCycleController {
     
@@ -25,12 +25,12 @@ public class BillingCycleController {
         this.billingCycleService = billingCycleService;
     }
     
-    @PostMapping
+    @PostMapping("/billingCycles")
     public ResponseEntity<Object> saveBillingCycle(@RequestBody @Valid BillingCycleModel billingCycleModel) {
         return ResponseEntity.status(HttpStatus.CREATED).body(billingCycleService.save(billingCycleModel));
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/billingCycles/{id}")
     public ResponseEntity<Object> updateBillingCycle(@PathVariable("id") UUID id,
                                                @Valid BillingCycleModel billingCycleModel) {
         Optional<BillingCycleModel> billingCycleModelOptional = billingCycleService.findById(id);
@@ -49,30 +49,30 @@ public class BillingCycleController {
     }
     
     
-    @GetMapping
+    @GetMapping("/billingCycles")
     public ResponseEntity<Page<BillingCycleModel>> getAllBillingCycle(Pageable pageable) {
         Page<BillingCycleModel> billingCycles = billingCycleService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(billingCycles);
     }
     
-    @GetMapping("/count")
+    @GetMapping("/billingCycles/count")
     public ResponseEntity<Long> getBillingCycleCount() {
         long count = billingCycleService.count();
         return ResponseEntity.ok(count);
     }
-    @GetMapping("summary")
+    @GetMapping("/billingCycles/summary")
     public ResponseEntity<Object> getBillingCycleSummary(){
-        double totalCredits = billingCycleService.getTotalCredits();
-        double totalDebits = billingCycleService.getTotalDebits();
-        double balance = totalCredits - totalDebits;
-
-        SummaryModel summary = new SummaryModel(totalCredits, totalDebits, balance);
+        double credits = billingCycleService.getTotalCredits();
+        double debits = billingCycleService.getTotalDebits();
+        double balance= credits - debits;
+        
+        SummaryModel summary = new SummaryModel(credits, debits, balance);
 
         return ResponseEntity.status(HttpStatus.OK).body(summary);
     }
     
     
-    @GetMapping("/{id}")
+    @GetMapping("/billingCycles/{id}")
     public ResponseEntity<Object> getOneBillingCycle(@PathVariable(value = "id") UUID id) {
         Optional<BillingCycleModel> billingCycleModelOptional = billingCycleService.findById(id);
         return billingCycleModelOptional.
@@ -81,7 +81,7 @@ public class BillingCycleController {
                 .body("Debit not found."));
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/billingCycles/{id}")
     public ResponseEntity<Object> deleteCredit(@PathVariable(value = "id") UUID id) {
         Optional<BillingCycleModel> billingCycleModelOptional = billingCycleService.findById(id);
         if (billingCycleModelOptional.isEmpty()) {

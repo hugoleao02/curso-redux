@@ -1,35 +1,35 @@
 package com.example.myMoneyapp.models;
 
 public class SummaryModel {
-    private double totalCredits;
-    private double totalDebits;
+    private double credits;
+    private double debits;
     private double balance;
-    public SummaryModel(double totalCredits, double totalDebits, double balance) {
-        this.totalCredits = totalCredits;
-        this.totalDebits = totalDebits;
+    public SummaryModel(double credits, double debits, double balance) {
+        this.credits = credits;
+        this.debits = debits;
         this.balance = balance;
     }
-    
-    public double getTotalCredits() {
-        return totalCredits;
+
+    public double getCredits() {
+        return credits;
     }
-    
-    public void setTotalCredits(double totalCredits) {
-        this.totalCredits = totalCredits;
+
+    public void setCredits(double credits) {
+        this.credits = credits;
     }
-    
-    public double getTotalDebits() {
-        return totalDebits;
+
+    public double getDebits() {
+        return debits;
     }
-    
-    public void setTotalDebits(double totalDebits) {
-        this.totalDebits = totalDebits;
+
+    public void setDebits(double debits) {
+        this.debits = debits;
     }
-    
+
     public double getBalance() {
         return balance;
     }
-    
+
     public void setBalance(double balance) {
         this.balance = balance;
     }

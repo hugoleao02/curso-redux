@@ -44,13 +44,13 @@ public class BillingCycleService {
     
     public double getTotalCredits() {
         List<BillingCycleModel> billingCycles = billingCycleRepository.findAll();
-        double totalCredits = 0.0;
+        double credits = 0.0;
         
         for (BillingCycleModel billingCycle : billingCycles) {
-            totalCredits += sumCredits(billingCycle.getCredits());
+            credits += sumCredits(billingCycle.getCredits());
         }
         
-        return totalCredits;
+        return credits;
     }
     
     private double sumCredits(List<CreditModel> credits) {
@@ -65,14 +65,14 @@ public class BillingCycleService {
     
     public double getTotalDebits() {
         List<BillingCycleModel> billingCycles = billingCycleRepository.findAll();
-        double totalDebits = 0.0;
+        double debits = 0.0;
         
         for (BillingCycleModel billingCycle : billingCycles) {
-            totalDebits += sumDebits(billingCycle.getDebits());
+            debits += sumDebits(billingCycle.getDebits());
            
         }
         
-        return totalDebits;
+        return debits;
     }
     
     private double sumDebits(List<DebitModel> debits) {
