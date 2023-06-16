@@ -1,9 +1,9 @@
 package com.example.myMoneyapp.models;
 
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,22 +17,26 @@ public class BillingCycleModel {
     
     @NotEmpty
     @NotNull
-    @Column
+    @Column(nullable = false)
     private String name;
-    @NotEmpty
-    @NotNull
-    @Column
-    private int month;
-    @NotEmpty
-    @NotNull
-    @Column
-    private int year;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull
+    @Column(nullable = false)
+    @Min(value = 1970, message = "O campo 'year' deve ser maior ou igual a 1970.")
+    @Max(value = 2100, message = "O campo 'year' deve ser menor ou igual a 2100.")
+    private Integer month;
+    
+    @NotNull
+    @Column(nullable = false)
+    @Min(value = 1970, message = "O campo 'year' deve ser maior ou igual a 1970.")
+    @Max(value = 2100, message = "O campo 'year' deve ser menor ou igual a 2100.")
+    private Integer year;
+    
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "billing_cycle_id", nullable = false)
     private List<CreditModel> credits = new ArrayList<>();
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "billing_cycle_id", nullable = false)
     private List<DebitModel> debits = new ArrayList<>();
     
@@ -53,22 +57,6 @@ public class BillingCycleModel {
         this.name = name;
     }
     
-    public int getMonth() {
-        return month;
-    }
-    
-    public void setMonth(int month) {
-        this.month = month;
-    }
-    
-    public int getYear() {
-        return year;
-    }
-    
-    public void setYear(int year) {
-        this.year = year;
-    }
-    
     public List<CreditModel> getCredits() {
         return credits;
     }
@@ -83,5 +71,22 @@ public class BillingCycleModel {
     
     public void setDebits(List<DebitModel> debits) {
         this.debits = debits;
+    }
+    
+    
+    public Integer getMonth() {
+        return month;
+    }
+    
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+    
+    public Integer getYear() {
+        return year;
+    }
+    
+    public void setYear(Integer year) {
+        this.year = year;
     }
 }
