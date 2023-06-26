@@ -28,7 +28,7 @@ function Navbar(props) {
             <NavbarItem href="/home" label="Home" />
             <NavbarItem href="/cadastro-usuarios" label="Usuários" />
             <NavbarItem href="/login" label="Login" />
-            <NavbarItem href="/" label="Lancamentos" />
+            <NavbarItem href="/consulta-lancamentos" label="Lancamentos" />
 
           </ul>
         </div>
