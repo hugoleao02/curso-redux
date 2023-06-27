@@ -9,8 +9,8 @@ import LacamentoService from "../../app/service/lacamentoService";
 import LocalStorageService from "../../app/service/localStoregeService";
 import * as messages from "../../components/toastr";
 
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
 
 class ConsultaLacamentos extends Component {
   state = {
@@ -47,19 +47,36 @@ class ConsultaLacamentos extends Component {
     this.service
       .consulta(lancamentoFiltro)
       .then((response) => {
-        this.setState({ lancamentos: response.data });
+        const lista = response.data
+        if(lista.length < 1){
+          messages.mensagemAlert("Nenhum resultado encontrado.");
+        
+        }
+        this.setState({ lancamentos: lista});
       })
       .catch((error) => {
-        messages.mensagemErro(error.response.data);
       });
   };
 
-  editar = (id) => {
-    console.log("Editando", id);
+  editar = (lancamento) => {
+    this.props.history.push(`/cadastro-lancamentos/${lancamento.id}`);
   };
 
-  abrirConfirmacao = (lancamento) =>{
-    this.setState({showConfirmDialog: true, lancamentoDeletar: lancamento})
+  abrirConfirmacao = (lancamento) => {
+    this.setState({ showConfirmDialog: true, lancamentoDeletar: lancamento });
+  };
+
+  alterarStatus = (lancamento, status)  => {
+    this.service.alterarStatus(lancamento.id, status).then((response) => {
+      const lancamentos = this.state.lancamentos;
+      const index = lancamentos.findIndex(item => item.id === lancamento.id);
+      if (index !== -1) {
+        lancamento["status"] = status;
+        lancamentos[index] = lancamento;
+        this.setState({ lancamentos });
+      }
+      messages.mensagemSucesso("Status atualizado com sucesso!");
+    });
   }
 
   deletar = () => {
@@ -69,7 +86,7 @@ class ConsultaLacamentos extends Component {
         const lancamentos = this.state.lancamentos;
         const index = lancamentos.indexOf(this.lancamentoDeletar);
         lancamentos.splice(index, 1);
-        this.setState({ lancamentos: lancamentos ,showConfirmDialog: false});
+        this.setState({ lancamentos: lancamentos, showConfirmDialog: false });
         messages.mensagemSucesso("Lançamento deletado com sucesso");
       })
       .catch((error) => {
@@ -79,9 +96,13 @@ class ConsultaLacamentos extends Component {
       });
   };
 
-  cancelarDelecao = () =>{
-    this.setState({showConfirmDialog: false, lancamentoDeletar: {}})
-  }
+  cancelarDelecao = () => {
+    this.setState({ showConfirmDialog: false, lancamentoDeletar: {} });
+  };
+
+  preparaFormularioCadastro = () => {
+    this.props.history.push("/cadastro-lancamentos");
+  };
 
   render() {
     const meses = this.service.obterListaMeses();
@@ -89,11 +110,21 @@ class ConsultaLacamentos extends Component {
 
     const confirmFooter = (
       <div>
-          <Button label="Confirma" icon="pi pi-check" onClick={this.deletar} className="p-button-text" />
-          <Button label="Cancelar" icon="pi pi-times" onClick={this.cancelarDelecao} autoFocus />
+        <Button
+          label="Confirma"
+          icon="pi pi-check"
+          onClick={this.deletar}
+          className="p-button-text"
+        />
+        <Button
+          label="Cancelar"
+          icon="pi pi-times"
+          onClick={this.cancelarDelecao}
+          autoFocus
+        />
       </div>
-  );
-
+    );
+    console.log(this.state.lancamentos);
     return (
       <Card title="Consulta Lançamentos">
         <div className="row">
@@ -146,9 +177,15 @@ class ConsultaLacamentos extends Component {
                 type="button"
                 className="btn btn-success mr-1"
               >
+                 <i className="pi pi-search mr-1"></i>
                 Buscar
               </button>
-              <button type="button" className="btn btn-danger">
+              <button
+                onClick={this.preparaFormularioCadastro}
+                type="button"
+                className="btn btn-danger"
+              >
+                 <i className="pi pi-plus mr-1"> </i> 
                 Cadastrar
               </button>
             </div>
@@ -161,6 +198,7 @@ class ConsultaLacamentos extends Component {
               <LancamentosTable
                 deleteAction={this.abrirConfirmacao}
                 editAction={this.editar}
+                alterarStatus={this.alterarStatus}
                 lancamentos={this.state.lancamentos}
               />
             </div>
@@ -172,11 +210,9 @@ class ConsultaLacamentos extends Component {
             visible={this.state.showConfirmDialog}
             style={{ width: "50vw" }}
             footer={confirmFooter}
-            onHide={() => this.setState({showConfirmDialog: false})}
+            onHide={() => this.setState({ showConfirmDialog: false })}
           >
-            <p className="m-0">
-              Confirma a exclusão deste lancamento?
-            </p>
+            <p className="m-0">Confirma a exclusão deste lancamento?</p>
           </Dialog>
         </div>
       </Card>

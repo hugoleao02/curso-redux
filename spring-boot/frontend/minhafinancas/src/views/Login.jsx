@@ -7,6 +7,7 @@ import LocalStorageService from "../app/service/localStoregeService";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import {mensagemErro} from "../components/toastr";
+import { AuthContext } from "../main/ProvedorAutenticacao";
  
 
 class Login extends Component {
@@ -27,7 +28,7 @@ class Login extends Component {
         senha: this.state.senha,
       })
       .then((response) => {
-        LocalStorageService.adicionarItem("_usuario_logado", response.data);
+        this.context.iniciarSessao(response.data);
         this.props.history.push("/home");
       })
       .catch((erro) => {
@@ -87,6 +88,7 @@ class Login extends Component {
                         type="button"
                         className="btn btn-success mr-1"
                       >
+                        <i className="pi pi-sign-in mr-1 "> </i> 
                         Entrar
                       </button>
 
@@ -95,6 +97,7 @@ class Login extends Component {
                         type="button"
                         className="btn btn-danger "
                       >
+                        <i className="pi pi-plus mr-1 "> </i> 
                         Cadastrar
                       </button>
                     </fieldset>
@@ -108,5 +111,7 @@ class Login extends Component {
     );
   }
 }
+
+Login.contextType = AuthContext;
 
 export default withRouter(Login);

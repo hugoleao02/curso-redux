@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import UsuarioService from "../app/service/usuarioService";
-import LocalStorageService from "../app/service/localStoregeService";
+import { AuthContext } from "../main/ProvedorAutenticacao";
 
 class Home extends Component {
   state = {
@@ -13,7 +13,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const usuarioLogado = LocalStorageService.obterItem('_usuario_logado');
+    const usuarioLogado = this.context.usuarioAutenticado;
 
     this.usuarioService
       .obterSaldoPorUsuario(usuarioLogado.id)
@@ -44,14 +44,16 @@ class Home extends Component {
             href="/cadastro-usuarios"
             role="button"
           >
-            <i className="fa fa-users"></i> Cadastrar Usuário
+            <i className="pi pi-users"></i> Cadastrar Usuário
           </a>
-          <a className="btn btn-danger btn-lg" href="#" role="button">
-            <i className="fa fa-users"></i> Cadastrar Lançamento
+          <a className="btn btn-danger btn-lg" href="/cadastro-lancamentos" role="button">
+            <i className="pi pi-money-bill"></i> Cadastrar Lançamento
           </a>
         </p>
       </div>
     );
   }
 }
+
+Home.contextType = AuthContext;
 export default Home;

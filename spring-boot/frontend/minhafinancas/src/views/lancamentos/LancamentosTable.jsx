@@ -6,22 +6,47 @@ export default (props) => {
     return (
       <tr key={lacamento.id}>
         <td>{lacamento.descricao}</td>
-        <td>{currencyFormatter.format(lacamento.valor, {
-            locale:'pt-BR'
-        })}</td>
+        <td>
+          {currencyFormatter.format(lacamento.valor, {
+            locale: "pt-BR",
+          })}
+        </td>
         <td>{lacamento.tipo}</td>
         <td>{lacamento.mes}</td>
         <td>{lacamento.status}</td>
         <td>
-        <button 
-        ype="button" 
-        className="btn btn-primary"
-        onClick={e => props.editAction(lacamento)}
-        >Editar</button>
-        <button 
-        type="button"
-        className="btn btn-danger" 
-        onClick={e => props.deleteAction(lacamento)}>Deletar</button>
+          <button
+            type="button" title="Efetivar"
+            disabled={lacamento.status !== 'PENDENTE'}
+            className="btn btn-success btn-sm"
+            onClick={(e) => props.alterarStatus(lacamento, "EFETIVADO")}
+          >
+           <i className="pi pi-check"></i>
+          </button>
+
+          <button
+            type="button" title="Cancelar"
+            disabled={lacamento.status !== 'PENDENTE'}
+            className="btn btn-warning btn-sm"
+            onClick={(e) => props.alterarStatus(lacamento, "CANCELADO")}
+          >
+            <i className="pi pi-times"></i>
+          </button>
+
+          <button
+            type="button" title="Editar"
+            className="btn btn-primary btn-sm"
+            onClick={(e) => props.editAction(lacamento)}
+          >
+            <i className="pi pi-pencil"></i>
+          </button>
+          <button
+            type="button" title="Deletar"
+            className="btn btn-danger btn-sm"
+            onClick={(e) => props.deleteAction(lacamento)}
+          >
+           <i className="pi pi-trash"></i>
+          </button>
         </td>
       </tr>
     );

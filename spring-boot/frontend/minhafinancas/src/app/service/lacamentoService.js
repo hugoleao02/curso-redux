@@ -1,5 +1,7 @@
 import ApiService from "../apiService";
 
+import ErroValidacao from "../exception/errosValidacao";
+
 export default class LacamentoService extends ApiService {
   constructor() {
     super("/api/lancamentos");
@@ -23,12 +25,48 @@ export default class LacamentoService extends ApiService {
     ];
   }
 
+  obterPorId(id) {
+    return this.get(`/${id}`);
+  }
+
   obterListasTipos() {
     return [
       { label: "Selecione...", value: "" },
       { label: "Despesa", value: "DESPESA" },
       { label: "Receita", value: "RECEITA" },
     ];
+  }
+
+  salvar(lancamento) {
+    return this.post("", lancamento);
+  }
+
+  atualizar(lancamento) {
+    return this.put(`/${lancamento.id}`, lancamento);
+  }
+
+  validar(lancamento) {
+    const erros = [];
+
+    if (!lancamento.ano) {
+      erros.push("Informe o Ano.");
+    }
+    if (!lancamento.mes) {
+      erros.push("Informe o mes.");
+    }
+    if (!lancamento.descricao) {
+      erros.push("Informe o descricao.");
+    }
+    if (!lancamento.valor) {
+      erros.push("Informe o valor.");
+    }
+    if (!lancamento.tipo) {
+      erros.push("Informe o tipo.");
+    }
+
+    if (erros && erros.length > 0) {
+      throw new ErroValidacao(erros);
+    }
   }
 
   consulta(lacamentoFiltro) {
@@ -51,14 +89,17 @@ export default class LacamentoService extends ApiService {
     }
 
     if (lacamentoFiltro.descricao) {
-        params = `${params}&descricao=${lacamentoFiltro.descricao}`;
-      }
-  
+      params = `${params}&descricao=${lacamentoFiltro.descricao}`;
+    }
 
     return this.get(params);
   }
 
-  deletar(id){
-    return this.delete(`/${id}`)
+  deletar(id) {
+    return this.delete(`/${id}`);
+  }
+
+  alterarStatus(id, status) {
+    return this.put(`/${id}/atualiza-status`, {status});
   }
 }
