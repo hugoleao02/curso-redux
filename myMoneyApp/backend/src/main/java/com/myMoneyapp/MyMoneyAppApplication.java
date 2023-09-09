@@ -1,13 +1,13 @@
-package com.example.minhasfinancias;
+package com.myMoneyapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MinhasfinanciasApplication  {
-	
+public class MyMoneyAppApplication {
+
 	public static void main(String[] args) {
-		SpringApplication.run(MinhasfinanciasApplication.class, args);
+		SpringApplication.run(MyMoneyAppApplication.class, args);
 	}
 
 }
