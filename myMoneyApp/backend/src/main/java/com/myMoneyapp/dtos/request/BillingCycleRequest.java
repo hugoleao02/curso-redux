@@ -2,14 +2,14 @@ package com.myMoneyapp.dtos.request;
 
 import com.myMoneyapp.models.Credit;
 import com.myMoneyapp.models.Debit;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data

@@ -61,7 +61,7 @@ public class ExceptionHandlers {
     
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ParseError> handleResponseStatusException(ResponseStatusException ex, WebRequest request) {
-        int rawStatusCode = ex.getStatusCode().value();
+        int rawStatusCode = ex.getRawStatusCode();
         HttpStatus status = HttpStatus.valueOf(rawStatusCode);
         ParseError parseError = parseErrorService.createParseError(ex, status, ex.getMessage(), request);
         return ResponseEntity.status(status).body(parseError);

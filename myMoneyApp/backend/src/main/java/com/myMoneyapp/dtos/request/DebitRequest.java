@@ -1,10 +1,11 @@
 package com.myMoneyapp.dtos.request;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.UUID;
 
