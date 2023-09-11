@@ -1,4 +1,4 @@
-package com.myMoneyapp.exception;
+package com.example.myMoneyapp.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

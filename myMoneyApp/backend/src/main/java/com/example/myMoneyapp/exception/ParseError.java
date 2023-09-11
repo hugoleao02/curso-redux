@@ -1,4 +1,4 @@
-package com.myMoneyapp.exception;
+package com.example.myMoneyapp.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
